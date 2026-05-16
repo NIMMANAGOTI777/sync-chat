@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+
+frontend/node_modules/
+frontend/dist/
+
+backend/database/chat.db
+frontend/ui-screenshot.png
