@@ -4,6 +4,7 @@ from flask import Blueprint, jsonify, request
 from backend.database.db import get_db
 
 bp = Blueprint("auth", __name__, url_prefix="/api/auth")
+SESSION_EXPIRY_DAYS = 7
 
 
 @bp.post("/login")
@@ -32,8 +33,10 @@ def login():
         )
 
     token = secrets.token_urlsafe(32)
-    # Expire sessions after 7 days with an explicit UTC timestamp.
-    expires_at = (datetime.now(timezone.utc) + timedelta(days=7)).isoformat(timespec="seconds")
+    # Expire sessions after SESSION_EXPIRY_DAYS with an explicit UTC timestamp.
+    expires_at = (
+        datetime.now(timezone.utc) + timedelta(days=SESSION_EXPIRY_DAYS)
+    ).isoformat(timespec="seconds")
     db.execute("INSERT INTO sessions(user_id, token, expires_at) VALUES(?, ?, ?)", (user_id, token, expires_at))
     db.commit()
 

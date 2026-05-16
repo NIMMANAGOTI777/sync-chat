@@ -44,13 +44,13 @@ export default function App() {
     api(`/api/messages/${active.user_id}`, {}, session.sessionToken).then(setMessages);
   }, [active, session]);
 
-  const sortedContacts = useMemo(() => [...contacts], [contacts]);
+  const contactList = useMemo(() => [...contacts], [contacts]);
 
   if (!session) return <div className="auth-page"><Login onLogin={setSession} /></div>;
 
   return (
     <div className="layout">
-      <Sidebar contacts={sortedContacts} activeContactId={active?.user_id} onSelect={setActive} search={search} onSearch={setSearch} />
+      <Sidebar contacts={contactList} activeContactId={active?.user_id} onSelect={setActive} search={search} onSearch={setSearch} />
       <ChatWindow
         me={session}
         contact={active}
